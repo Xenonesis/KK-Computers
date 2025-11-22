@@ -4,6 +4,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { Navbar } from '@/components/shared/navbar';
 import { Footer } from '@/components/shared/footer';
 import { ThemeProvider } from '@/components/theme-provider';
+import { AnalyticsProvider } from '@/components/AnalyticsProvider';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -69,13 +70,15 @@ export default function RootLayout({
             storageKey="kk-computers-theme"
             enableColorScheme={true}
           >
-            <div className="min-h-screen flex flex-col">
-              <Navbar />
-              <main className="flex-1 pt-16">
-                {children}
-              </main>
-              <Footer />
-            </div>
+            <AnalyticsProvider>
+              <div className="min-h-screen flex flex-col">
+                <Navbar />
+                <main className="flex-1 pt-16">
+                  {children}
+                </main>
+                <Footer />
+              </div>
+            </AnalyticsProvider>
           </ThemeProvider>
         </body>
       </html>

@@ -11,10 +11,9 @@ import { ThemeToggle } from '@/components/theme-toggle'
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Courses', href: '/courses' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'Events', href: '/events' },
+  { name: 'Instructors', href: '/instructors' },
+  { name: 'Blog', href: '/blog' },
   { name: 'About', href: '/about' },
-  { name: 'Partners', href: '/partners' },
   { name: 'Contact', href: '/contact' },
 ]
 

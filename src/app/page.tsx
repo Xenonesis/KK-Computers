@@ -4,6 +4,11 @@ import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Progress } from '@/components/ui/progress'
 import { Separator } from '@/components/ui/separator'
+import { AnimatedCounter } from '@/components/AnimatedCounter'
+import { ScrollToTop } from '@/components/ScrollToTop'
+import { FAQSection } from '@/components/FAQSection'
+import { TestimonialCarousel } from '@/components/TestimonialCarousel'
+import { LiveStats } from '@/components/LiveStats'
 
 import Link from 'next/link'
 import {
@@ -22,7 +27,10 @@ import {
   Shield,
   Clock,
   PlayCircle,
-  Quote
+  Quote,
+  Sparkles,
+  Target,
+  Rocket
 } from 'lucide-react'
 
 export default function Home() {
@@ -54,22 +62,28 @@ export default function Home() {
             </h1>
 
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed transition-colors duration-300 px-4">
-              Join <span className="font-semibold text-blue-600 dark:text-blue-400">5,000+</span> students who transformed their careers with our
+              Join <span className="font-semibold text-blue-600 dark:text-blue-400"><AnimatedCounter end={5000} suffix="+" /></span> students who transformed their careers with our
               comprehensive IT education, industry certifications, and hands-on learning experience.
             </p>
 
             {/* Stats */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-10 px-4">
-              <div className="text-center min-w-[80px]">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">95%</div>
+              <div className="text-center min-w-[80px] group cursor-default">
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
+                  <AnimatedCounter end={95} suffix="%" />
+                </div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Job Placement</div>
               </div>
-              <div className="text-center min-w-[80px]">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-purple-600 dark:text-purple-400">50+</div>
+              <div className="text-center min-w-[80px] group cursor-default">
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform">
+                  <AnimatedCounter end={50} suffix="+" />
+                </div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Expert Instructors</div>
               </div>
-              <div className="text-center min-w-[80px]">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-indigo-600 dark:text-indigo-400">4.9★</div>
+              <div className="text-center min-w-[80px] group cursor-default">
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">
+                  <AnimatedCounter end={4.9} />★
+                </div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Student Rating</div>
               </div>
             </div>
@@ -410,21 +424,68 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-24 bg-white">
+      {/* Live Stats Section */}
+      <section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <Badge variant="outline" className="mb-4 px-4 py-2">
-              Student Success Stories
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              What Our Students Say
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-sm font-medium mb-6">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Live Platform Stats
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Real-Time Learning Activity
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              See what&apos;s happening on our platform right now
+            </p>
+          </div>
+          <LiveStats />
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-sm font-medium mb-6">
+              <Quote className="w-4 h-4 mr-2" />
+              Student Success Stories
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              What Our <span className="text-blue-600 dark:text-blue-400">Students Say</span>
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Real stories from real students who transformed their careers with KK Computers
             </p>
           </div>
 
+          <TestimonialCarousel />
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-24 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 transition-colors duration-300">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-sm font-medium mb-6">
+              <Target className="w-4 h-4 mr-2" />
+              Frequently Asked Questions
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              Got Questions? <span className="text-blue-600 dark:text-blue-400">We&apos;ve Got Answers</span>
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300">
+              Everything you need to know about our courses and programs
+            </p>
+          </div>
+
+          <FAQSection />
+        </div>
+      </section>
+
+      {/* Old Testimonials Grid - Remove this */}
+      <section className="hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-50 to-indigo-50">
               <CardHeader>
@@ -597,6 +658,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
     </div>
   )
 }
