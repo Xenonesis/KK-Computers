@@ -44,7 +44,7 @@ export function FAQSection() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {faqs.map((faq, index) => (
         <Card 
           key={index} 
@@ -52,14 +52,14 @@ export function FAQSection() {
         >
           <button
             onClick={() => toggleFAQ(index)}
-            className="w-full text-left p-6 flex justify-between items-center gap-4"
+            className="w-full text-left p-4 sm:p-5 md:p-6 flex justify-between items-start sm:items-center gap-3 sm:gap-4 group"
           >
-            <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
+            <h3 className="font-semibold text-base sm:text-lg md:text-xl text-gray-900 dark:text-white leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
               {faq.question}
             </h3>
             <ChevronDown 
-              className={`h-5 w-5 text-gray-500 transition-transform duration-300 flex-shrink-0 ${
-                openIndex === index ? 'transform rotate-180' : ''
+              className={`h-5 w-5 sm:h-6 sm:w-6 text-gray-500 dark:text-gray-400 transition-transform duration-300 flex-shrink-0 mt-0.5 sm:mt-0 ${
+                openIndex === index ? 'transform rotate-180 text-blue-600 dark:text-blue-400' : ''
               }`}
             />
           </button>
@@ -69,8 +69,8 @@ export function FAQSection() {
               openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
             }`}
           >
-            <CardContent className="pt-0 pb-6 px-6">
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+            <CardContent className="pt-0 pb-5 sm:pb-6 px-4 sm:px-5 md:px-6">
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                 {faq.answer}
               </p>
             </CardContent>

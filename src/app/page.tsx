@@ -37,86 +37,86 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 sm:py-16 md:py-20 lg:py-24 overflow-hidden transition-colors duration-300">
+      <section className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-16 sm:py-20 md:py-24 lg:py-32 overflow-hidden transition-colors duration-300">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-white/5 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10"></div>
 
         {/* Floating Elements - Hidden on mobile for better performance */}
-        <div className="hidden sm:block absolute top-20 left-10 w-20 h-20 bg-blue-200 dark:bg-blue-800 rounded-full opacity-20 animate-pulse"></div>
-        <div className="hidden sm:block absolute top-40 right-20 w-16 h-16 bg-purple-200 dark:bg-purple-800 rounded-full opacity-20 animate-pulse delay-1000"></div>
-        <div className="hidden sm:block absolute bottom-20 left-1/4 w-12 h-12 bg-indigo-200 dark:bg-indigo-800 rounded-full opacity-20 animate-pulse delay-500"></div>
+        <div className="hidden lg:block absolute top-20 left-10 w-20 h-20 bg-blue-200 dark:bg-blue-800 rounded-full opacity-20 animate-pulse"></div>
+        <div className="hidden lg:block absolute top-40 right-20 w-16 h-16 bg-purple-200 dark:bg-purple-800 rounded-full opacity-20 animate-pulse delay-1000"></div>
+        <div className="hidden lg:block absolute bottom-20 left-1/4 w-12 h-12 bg-indigo-200 dark:bg-indigo-800 rounded-full opacity-20 animate-pulse delay-500"></div>
 
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
             {/* Badge */}
-            <div className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-xs sm:text-sm font-medium mb-4 sm:mb-6 transition-colors duration-300">
-              <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
+            <div className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-xs sm:text-sm font-medium mb-6 sm:mb-8 transition-colors duration-300 shadow-sm">
+              <Zap className="w-4 h-4 sm:w-4 sm:h-4 mr-2" />
               #1 Digital Training Institute
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight transition-colors duration-300 px-2">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8 leading-[1.1] transition-colors duration-300 px-2">
               Empower Your{' '}
               <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
                 Digital Future
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed transition-colors duration-300 px-4">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 mb-8 sm:mb-10 max-w-5xl mx-auto leading-relaxed transition-colors duration-300 px-4">
               Join <span className="font-semibold text-blue-600 dark:text-blue-400"><AnimatedCounter end={5000} suffix="+" /></span> students who transformed their careers with our
               comprehensive IT education, industry certifications, and hands-on learning experience.
             </p>
 
             {/* Stats */}
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-10 px-4">
-              <div className="text-center min-w-[80px] group cursor-default">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
+            <div className="grid grid-cols-3 max-w-2xl mx-auto gap-6 sm:gap-8 md:gap-12 mb-10 sm:mb-12 px-4">
+              <div className="text-center group cursor-default">
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform mb-2">
                   <AnimatedCounter end={95} suffix="%" />
                 </div>
-                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Job Placement</div>
+                <div className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400">Job Placement</div>
               </div>
-              <div className="text-center min-w-[80px] group cursor-default">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform">
+              <div className="text-center group cursor-default">
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform mb-2">
                   <AnimatedCounter end={50} suffix="+" />
                 </div>
-                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Expert Instructors</div>
+                <div className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400">Expert Instructors</div>
               </div>
-              <div className="text-center min-w-[80px] group cursor-default">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">
+              <div className="text-center group cursor-default">
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform mb-2">
                   <AnimatedCounter end={4.9} />★
                 </div>
-                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">Student Rating</div>
+                <div className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400">Student Rating</div>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 max-w-md sm:max-w-none mx-auto">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center px-4 max-w-lg sm:max-w-none mx-auto">
               <Link href="/courses" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto h-12 sm:h-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-sm sm:text-base">
-                  <PlayCircle className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <Button size="lg" className="w-full sm:w-auto h-14 sm:h-12 px-8 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-base sm:text-lg">
+                  <PlayCircle className="mr-2 h-5 w-5" />
                   Start Learning Today
-                  <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link href="/about" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 sm:h-auto border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 text-sm sm:text-base">
-                  <Globe className="mr-2 h-4 w-4" />
+                <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 sm:h-12 px-8 border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 text-base sm:text-lg">
+                  <Globe className="mr-2 h-5 w-5" />
                   Explore Programs
                 </Button>
               </Link>
             </div>
 
             {/* Trust Indicators */}
-            <div className="mt-8 sm:mt-10 md:mt-12 flex flex-wrap justify-center items-center gap-3 sm:gap-4 md:gap-6 opacity-60 px-4">
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">Certified Programs</span>
+            <div className="mt-10 sm:mt-12 md:mt-16 flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 opacity-70 px-4">
+              <div className="flex items-center gap-2">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+                <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">Certified Programs</span>
               </div>
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">Industry Recognized</span>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+                <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">Industry Recognized</span>
               </div>
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">Career Growth</span>
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+                <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">Career Growth</span>
               </div>
             </div>
           </div>
@@ -218,35 +218,35 @@ export default function Home() {
           </div>
 
           {/* Additional Benefits */}
-          <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 rounded-3xl p-6 sm:p-8 md:p-12 transition-colors duration-300">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Laptop className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+          <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 transition-colors duration-300">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10">
+              <div className="text-center group hover:scale-105 transition-transform duration-300">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-blue-100 dark:bg-blue-900/50 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-800/50 transition-colors">
+                  <Laptop className="h-7 w-7 sm:h-8 sm:w-8 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Hands-on Projects</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Build real-world applications</p>
+                <h3 className="font-semibold text-base sm:text-lg text-gray-900 dark:text-white mb-2">Hands-on Projects</h3>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Build real-world applications</p>
               </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+              <div className="text-center group hover:scale-105 transition-transform duration-300">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-purple-100 dark:bg-purple-900/50 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-200 dark:group-hover:bg-purple-800/50 transition-colors">
+                  <TrendingUp className="h-7 w-7 sm:h-8 sm:w-8 text-purple-600 dark:text-purple-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Career Growth</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Average 40% salary increase</p>
+                <h3 className="font-semibold text-base sm:text-lg text-gray-900 dark:text-white mb-2">Career Growth</h3>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Average 40% salary increase</p>
               </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Shield className="h-6 w-6 text-green-600 dark:text-green-400" />
+              <div className="text-center group hover:scale-105 transition-transform duration-300">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-green-100 dark:bg-green-900/50 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 dark:group-hover:bg-green-800/50 transition-colors">
+                  <Shield className="h-7 w-7 sm:h-8 sm:w-8 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Job Guarantee</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">95% placement success rate</p>
+                <h3 className="font-semibold text-base sm:text-lg text-gray-900 dark:text-white mb-2">Job Guarantee</h3>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">95% placement success rate</p>
               </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/50 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Globe className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+              <div className="text-center group hover:scale-105 transition-transform duration-300">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-orange-100 dark:bg-orange-900/50 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-200 dark:group-hover:bg-orange-800/50 transition-colors">
+                  <Globe className="h-7 w-7 sm:h-8 sm:w-8 text-orange-600 dark:text-orange-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Global Access</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Learn from anywhere</p>
+                <h3 className="font-semibold text-base sm:text-lg text-gray-900 dark:text-white mb-2">Global Access</h3>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Learn from anywhere</p>
               </div>
             </div>
           </div>
@@ -425,17 +425,17 @@ export default function Home() {
       </section>
 
       {/* Live Stats Section */}
-      <section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 transition-colors duration-300">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-sm font-medium mb-6">
-              <Sparkles className="w-4 h-4 mr-2" />
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <div className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-sm sm:text-base font-medium mb-4 sm:mb-6 shadow-sm">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Live Platform Stats
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 px-4">
               Real-Time Learning Activity
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
               See what&apos;s happening on our platform right now
             </p>
           </div>
@@ -444,17 +444,17 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-sm font-medium mb-6">
-              <Quote className="w-4 h-4 mr-2" />
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <div className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-sm sm:text-base font-medium mb-4 sm:mb-6 shadow-sm">
+              <Quote className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Student Success Stories
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 px-4">
               What Our <span className="text-blue-600 dark:text-blue-400">Students Say</span>
             </h2>
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
               Real stories from real students who transformed their careers with KK Computers
             </p>
           </div>
@@ -464,17 +464,17 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 transition-colors duration-300">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 transition-colors duration-300">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-sm font-medium mb-6">
-              <Target className="w-4 h-4 mr-2" />
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <div className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-sm sm:text-base font-medium mb-4 sm:mb-6 shadow-sm">
+              <Target className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Frequently Asked Questions
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 px-4">
               Got Questions? <span className="text-blue-600 dark:text-blue-400">We&apos;ve Got Answers</span>
             </h2>
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 px-4">
               Everything you need to know about our courses and programs
             </p>
           </div>
@@ -600,58 +600,58 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 relative overflow-hidden">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
 
         {/* Floating Elements */}
-        <div className="absolute top-20 left-20 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
-        <div className="absolute bottom-20 right-20 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
+        <div className="hidden md:block absolute top-20 left-20 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
+        <div className="hidden md:block absolute bottom-20 right-20 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
           <div className="max-w-4xl mx-auto">
-            <Badge variant="secondary" className="mb-6 px-6 py-2 bg-white/20 text-white border-white/30">
+            <Badge variant="secondary" className="mb-6 sm:mb-8 px-5 py-2 sm:px-6 sm:py-2.5 bg-white/20 text-white border-white/30 text-sm sm:text-base">
               Limited Time Offer
             </Badge>
 
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 sm:mb-8 leading-tight px-4">
               Ready to Transform Your{' '}
               <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
                 Career?
               </span>
             </h2>
 
-            <p className="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-blue-100 mb-8 sm:mb-10 leading-relaxed px-4">
               Join <span className="font-semibold text-white">5,000+</span> students who transformed their careers.
               Start your journey today with our industry-leading programs.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Link href="/courses">
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10 sm:mb-12 px-4">
+              <Link href="/courses" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto h-14 sm:h-12 px-8 bg-white text-blue-600 hover:bg-gray-100 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 text-base sm:text-lg">
                   <PlayCircle className="mr-2 h-5 w-5" />
                   Start Learning Now
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/contact">
-                <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-blue-600 transition-all duration-300">
-                  <Users className="mr-2 h-4 w-4" />
+              <Link href="/contact" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 sm:h-12 px-8 border-2 border-white text-white hover:bg-white hover:text-blue-600 transition-all duration-300 text-base sm:text-lg">
+                  <Users className="mr-2 h-5 w-5" />
                   Talk to an Advisor
                 </Button>
               </Link>
             </div>
 
             {/* Special Offer */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <div className="flex flex-col md:flex-row items-center justify-between">
-                <div className="text-left mb-4 md:mb-0">
-                  <h3 className="text-xl font-semibold text-white mb-2">🎉 Early Bird Special</h3>
-                  <p className="text-blue-100">Get 30% off any course when you enroll this month</p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/20 mx-4">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="text-center md:text-left">
+                  <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2">🎉 Early Bird Special</h3>
+                  <p className="text-base sm:text-lg text-blue-100">Get 30% off any course when you enroll this month</p>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-yellow-300">30% OFF</div>
-                  <div className="text-sm text-blue-100">Use code: EARLY30</div>
+                <div className="text-center flex-shrink-0">
+                  <div className="text-3xl sm:text-4xl font-bold text-yellow-300">30% OFF</div>
+                  <div className="text-sm sm:text-base text-blue-100 mt-1">Use code: EARLY30</div>
                 </div>
               </div>
             </div>
