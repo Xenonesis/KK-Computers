@@ -1,106 +1,67 @@
-import { auth } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useAuth } from '@clerk/nextjs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { BookOpen, Calendar, Award, TrendingUp, Clock } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { BookOpen, Calendar, Award, TrendingUp, Clock, ExternalLink } from 'lucide-react'
+import { Enrollment } from '@/lib/supabase'
+import Link from 'next/link'
 
-interface Course {
-  id: number
-  title: string
-  progress: number
-  nextLesson?: string
-  dueDate?: string
-  completed?: boolean
-  completedDate?: string
-}
+export default function DashboardPage() {
+  const { isLoaded, userId } = useAuth()
+  const [enrollments, setEnrollments] = useState<Enrollment[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-interface Event {
-  id: number
-  title: string
-  date: string
-  time: string
-  type: string
-}
+  useEffect(() => {
+    if (isLoaded && userId) {
+      fetchEnrollments()
+    } else if (isLoaded && !userId) {
+      // Redirect to sign in if not authenticated
+      window.location.href = '/sign-in'
+    }
+  }, [isLoaded, userId])
 
-interface Achievement {
-  id: number
-  title: string
-  date: string
-  type: string
-}
+  const fetchEnrollments = async () => {
+    try {
+      const response = await fetch('/api/enrollments')
+      const data = await response.json()
 
-export default async function DashboardPage() {
-  const { userId } = await auth()
-  
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch enrollments')
+      }
+
+      setEnrollments(data.enrollments)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (!isLoaded || loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">Loading dashboard...</div>
+      </div>
+    )
+  }
+
   if (!userId) {
-    redirect('/sign-in')
+    return null // Will redirect via useEffect
   }
 
-  // Mock data - will be replaced with actual user data from Supabase
+  // Calculate user stats from enrollments
   const userStats = {
-    coursesEnrolled: 3,
-    coursesCompleted: 1,
-    certificatesEarned: 1,
-    totalStudyHours: 45,
-    upcomingEvents: 2,
-    currentStreak: 7
+    coursesEnrolled: enrollments.length,
+    coursesCompleted: enrollments.filter(e => e.status === 'completed').length,
+    coursesInProgress: enrollments.filter(e => e.status === 'in_progress').length,
+    averageProgress: enrollments.length > 0
+      ? Math.round(enrollments.reduce((sum, e) => sum + e.progress, 0) / enrollments.length)
+      : 0
   }
-
-  const enrolledCourses: Course[] = [
-    {
-      id: 1,
-      title: "Full Stack Web Development",
-      progress: 65,
-      nextLesson: "React State Management",
-      dueDate: "2024-02-20"
-    },
-    {
-      id: 2,
-      title: "Python Programming Fundamentals",
-      progress: 100,
-      completed: true,
-      completedDate: "2024-01-15"
-    },
-    {
-      id: 3,
-      title: "Digital Marketing Mastery",
-      progress: 30,
-      nextLesson: "SEO Optimization",
-      dueDate: "2024-03-01"
-    }
-  ]
-
-  const upcomingEvents: Event[] = [
-    {
-      id: 1,
-      title: "Web Development Workshop",
-      date: "2024-02-15",
-      time: "10:00 AM",
-      type: "workshop"
-    },
-    {
-      id: 2,
-      title: "AI & Machine Learning Seminar",
-      date: "2024-02-20",
-      time: "2:00 PM",
-      type: "seminar"
-    }
-  ]
-
-  const recentAchievements: Achievement[] = [
-    {
-      id: 1,
-      title: "Python Fundamentals Certificate",
-      date: "2024-01-15",
-      type: "certificate"
-    },
-    {
-      id: 2,
-      title: "7-Day Learning Streak",
-      date: "2024-01-10",
-      type: "streak"
-    }
-  ]
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -114,6 +75,13 @@ export default async function DashboardPage() {
             Here&apos;s your learning progress and upcoming activities.
           </p>
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+            {error}
+          </div>
+        )}
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -132,155 +100,204 @@ export default async function DashboardPage() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Study Hours</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{userStats.totalStudyHours}</div>
-              <p className="text-xs text-muted-foreground">
-                This month
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Certificates</CardTitle>
-              <Award className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{userStats.certificatesEarned}</div>
-              <p className="text-xs text-muted-foreground">
-                Earned this year
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Learning Streak</CardTitle>
+              <CardTitle className="text-sm font-medium">In Progress</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{userStats.currentStreak}</div>
+              <div className="text-2xl font-bold">{userStats.coursesInProgress}</div>
               <p className="text-xs text-muted-foreground">
-                Days in a row
+                Active courses
               </p>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Average Progress</CardTitle>
+              <Award className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{userStats.averageProgress}%</div>
+              <p className="text-xs text-muted-foreground">
+                Across all courses
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Completed</CardTitle>
+              <Clock className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{userStats.coursesCompleted}</div>
+              <p className="text-xs text-muted-foreground">
+                Courses finished
+              </p>
+            </CardContent>
+          </Card>
+
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Enrolled Courses */}
           <Card>
             <CardHeader>
-              <CardTitle>My Courses</CardTitle>
-              <CardDescription>
-                Your current learning progress
-              </CardDescription>
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle>My Courses</CardTitle>
+                  <CardDescription>
+                    Your current learning progress
+                  </CardDescription>
+                </div>
+                <Link href="/courses">
+                  <Button variant="outline" size="sm">
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Browse Courses
+                  </Button>
+                </Link>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {enrolledCourses.map((course) => (
-                  <div key={course.id} className="border rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold">{course.title}</h3>
-                      {course.completed ? (
-                        <Badge className="bg-green-100 text-green-800">Completed</Badge>
-                      ) : (
-                        <Badge variant="outline">{course.progress}%</Badge>
-                      )}
-                    </div>
-                    
-                    {!course.completed && (
-                      <>
+                {enrollments.length === 0 ? (
+                  <div className="text-center py-8">
+                    <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">No courses yet</h3>
+                    <p className="text-gray-500 mb-4">Start your learning journey by enrolling in a course</p>
+                    <Link href="/courses">
+                      <Button>Browse Courses</Button>
+                    </Link>
+                  </div>
+                ) : (
+                  enrollments.map((enrollment) => (
+                    <div key={enrollment.id} className="border rounded-lg p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="font-semibold">
+                          <Link
+                            href={`/courses/${enrollment.content_id}`}
+                            className="hover:text-blue-600"
+                          >
+                            {enrollment.course?.title || 'Course'}
+                          </Link>
+                        </h3>
+                        <Badge variant={
+                          enrollment.status === 'completed' ? 'default' :
+                          enrollment.status === 'in_progress' ? 'secondary' :
+                          'outline'
+                        }>
+                          {enrollment.status === 'completed' ? 'Completed' :
+                           enrollment.status === 'in_progress' ? 'In Progress' :
+                           'Enrolled'}
+                        </Badge>
+                      </div>
+
+                      {enrollment.status !== 'completed' && (
                         <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                          <div 
-                            className="bg-blue-600 h-2 rounded-full" 
-                            style={{ width: `${course.progress}%` }}
+                          <div
+                            className="bg-blue-600 h-2 rounded-full"
+                            style={{ width: `${enrollment.progress}%` }}
                           ></div>
                         </div>
-                        <p className="text-sm text-gray-600 mb-1">
-                          Next: {course.nextLesson}
+                      )}
+
+                      <div className="flex justify-between items-center text-sm text-gray-600">
+                        <span>Progress: {enrollment.progress}%</span>
+                        <span>
+                          Enrolled: {new Date(enrollment.enrollment_date).toLocaleDateString()}
+                        </span>
+                      </div>
+
+                      {enrollment.completion_date && (
+                        <p className="text-sm text-green-600 mt-1">
+                          Completed on {new Date(enrollment.completion_date).toLocaleDateString()}
                         </p>
-                        {course.dueDate && (
-                          <p className="text-xs text-gray-500">
-                            Due: {new Date(course.dueDate).toLocaleDateString()}
-                          </p>
-                        )}
-                      </>
-                    )}
-                    
-                    {course.completed && course.completedDate && (
-                      <p className="text-sm text-green-600">
-                        Completed on {new Date(course.completedDate).toLocaleDateString()}
-                      </p>
-                    )}
-                  </div>
-                ))}
+                      )}
+                    </div>
+                  ))
+                )}
               </div>
             </CardContent>
           </Card>
 
-          {/* Upcoming Events */}
+          {/* Quick Actions */}
           <Card>
             <CardHeader>
-              <CardTitle>Upcoming Events</CardTitle>
+              <CardTitle>Quick Actions</CardTitle>
               <CardDescription>
-                Events you&apos;re registered for
+                Common tasks and links
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {upcomingEvents.map((event) => (
-                  <div key={event.id} className="border rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold">{event.title}</h3>
-                      <Badge variant="outline">
-                        {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
-                      </Badge>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      {new Date(event.date).toLocaleDateString()} at {event.time}
-                    </div>
+              <div className="space-y-3">
+                <Link href="/courses">
+                  <Button variant="outline" className="w-full justify-start">
+                    <BookOpen className="w-4 h-4 mr-2" />
+                    Browse All Courses
+                  </Button>
+                </Link>
+                <Link href="/events">
+                  <Button variant="outline" className="w-full justify-start">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    View Events
+                  </Button>
+                </Link>
+                <Link href="/projects">
+                  <Button variant="outline" className="w-full justify-start">
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    Explore Projects
+                  </Button>
+                </Link>
+                {userStats.coursesEnrolled > 0 && (
+                  <div className="pt-4 border-t">
+                    <h4 className="font-medium mb-2">Learning Tips</h4>
+                    <ul className="text-sm text-gray-600 space-y-1">
+                      <li>• Set aside dedicated study time daily</li>
+                      <li>• Complete practice exercises</li>
+                      <li>• Join our community discussions</li>
+                      <li>• Track your progress regularly</li>
+                    </ul>
                   </div>
-                ))}
-                
-                {upcomingEvents.length === 0 && (
-                  <p className="text-gray-500 text-center py-4">
-                    No upcoming events. Check out our events page to register for workshops and seminars.
-                  </p>
                 )}
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Recent Achievements */}
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle>Recent Achievements</CardTitle>
-            <CardDescription>
-              Your latest accomplishments
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {recentAchievements.map((achievement) => (
-                <div key={achievement.id} className="flex items-center space-x-3 p-3 border rounded-lg">
-                  <Award className="h-8 w-8 text-yellow-500" />
-                  <div>
-                    <h3 className="font-semibold">{achievement.title}</h3>
-                    <p className="text-sm text-gray-600">
-                      {new Date(achievement.date).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Recent Enrollments */}
+        {enrollments.length > 0 && (
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>Recent Activity</CardTitle>
+              <CardDescription>
+                Your latest course enrollments
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {enrollments
+                  .sort((a, b) => new Date(b.enrollment_date).getTime() - new Date(a.enrollment_date).getTime())
+                  .slice(0, 3)
+                  .map((enrollment) => (
+                    <div key={enrollment.id} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <BookOpen className="h-8 w-8 text-blue-600" />
+                        <div>
+                          <h3 className="font-semibold">{enrollment.course?.title || 'Course'}</h3>
+                          <p className="text-sm text-gray-600">
+                            Enrolled on {new Date(enrollment.enrollment_date).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                      <Badge variant="outline">
+                        {enrollment.progress}% complete
+                      </Badge>
+                    </div>
+                  ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   )

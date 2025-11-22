@@ -1,85 +1,74 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useAuth } from '@clerk/nextjs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Clock, Users, Star, BookOpen } from 'lucide-react'
-
-// Mock data - will be replaced with Supabase data later
-const courses = [
-  {
-    id: 1,
-    title: "Full Stack Web Development",
-    description: "Master modern web development with React, Node.js, and databases. Build real-world applications from scratch.",
-    duration: "16 weeks",
-    level: "Intermediate",
-    price: 399,
-    students: 1250,
-    rating: 4.8,
-    image: "/api/placeholder/400/250",
-    technologies: ["React", "Node.js", "MongoDB", "Express"]
-  },
-  {
-    id: 2,
-    title: "Python Programming Fundamentals",
-    description: "Learn Python from basics to advanced concepts. Perfect for beginners starting their programming journey.",
-    duration: "12 weeks",
-    level: "Beginner",
-    price: 299,
-    students: 890,
-    rating: 4.9,
-    image: "/api/placeholder/400/250",
-    technologies: ["Python", "Django", "Flask", "SQLite"]
-  },
-  {
-    id: 3,
-    title: "Digital Marketing Mastery",
-    description: "Comprehensive digital marketing course covering SEO, social media, PPC, and analytics.",
-    duration: "10 weeks",
-    level: "Beginner",
-    price: 249,
-    students: 650,
-    rating: 4.7,
-    image: "/api/placeholder/400/250",
-    technologies: ["Google Ads", "Facebook Ads", "SEO", "Analytics"]
-  },
-  {
-    id: 4,
-    title: "Data Science & Analytics",
-    description: "Dive into data science with Python, machine learning, and statistical analysis.",
-    duration: "20 weeks",
-    level: "Advanced",
-    price: 499,
-    students: 420,
-    rating: 4.9,
-    image: "/api/placeholder/400/250",
-    technologies: ["Python", "Pandas", "Scikit-learn", "Tableau"]
-  },
-  {
-    id: 5,
-    title: "Mobile App Development",
-    description: "Build native mobile apps for iOS and Android using React Native and Flutter.",
-    duration: "14 weeks",
-    level: "Intermediate",
-    price: 349,
-    students: 780,
-    rating: 4.6,
-    image: "/api/placeholder/400/250",
-    technologies: ["React Native", "Flutter", "Firebase", "API Integration"]
-  },
-  {
-    id: 6,
-    title: "Cybersecurity Fundamentals",
-    description: "Learn essential cybersecurity concepts, ethical hacking, and network security.",
-    duration: "18 weeks",
-    level: "Intermediate",
-    price: 449,
-    students: 320,
-    rating: 4.8,
-    image: "/api/placeholder/400/250",
-    technologies: ["Network Security", "Penetration Testing", "CISSP", "Ethical Hacking"]
-  }
-]
+import { Course, Enrollment } from '@/lib/supabase'
+import { CoursePurchaseButton } from '@/components/course-purchase-button'
+import Link from 'next/link'
 
 export default function CoursesPage() {
+  const { isLoaded, userId } = useAuth()
+  const [courses, setCourses] = useState<Course[]>([])
+  const [enrollments, setEnrollments] = useState<Enrollment[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetchCourses()
+    if (isLoaded && userId) {
+      fetchEnrollments()
+    }
+  }, [isLoaded, userId])
+
+  const fetchCourses = async () => {
+    try {
+      const response = await fetch('/api/courses')
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch courses')
+      }
+
+      setCourses(data.courses)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const fetchEnrollments = async () => {
+    try {
+      const response = await fetch('/api/enrollments')
+      const data = await response.json()
+
+      if (response.ok) {
+        setEnrollments(data.enrollments)
+      }
+    } catch (err) {
+      console.error('Error fetching enrollments:', err)
+    }
+  }
+
+  const isEnrolled = (courseId: string) => {
+    return enrollments.some(enrollment =>
+      enrollment.content_id === courseId &&
+      enrollment.content_type === 'course' &&
+      ['enrolled', 'in_progress', 'completed'].includes(enrollment.status)
+    )
+  }
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">Loading courses...</div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -90,71 +79,113 @@ export default function CoursesPage() {
               Our Courses
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover our comprehensive range of IT courses designed to advance your career 
+              Discover our comprehensive range of IT courses designed to advance your career
               and keep you ahead in the digital world.
             </p>
           </div>
         </div>
       </section>
 
+      {/* Error Message */}
+      {error && (
+        <section className="py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+              {error}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Courses Grid */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {courses.map((course) => (
-              <Card key={course.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="aspect-video bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center">
-                  <BookOpen className="h-16 w-16 text-blue-600" />
-                </div>
-                
-                <CardHeader>
-                  <div className="flex justify-between items-start mb-2">
-                    <Badge variant={course.level === 'Beginner' ? 'secondary' : course.level === 'Intermediate' ? 'default' : 'destructive'}>
-                      {course.level}
-                    </Badge>
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium">{course.rating}</span>
-                    </div>
+          {courses.length === 0 ? (
+            <div className="text-center py-12">
+              <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No courses available</h3>
+              <p className="text-gray-500">Check back later for new courses!</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {courses.map((course) => (
+                <Card key={course.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                  <div className="aspect-video bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center">
+                    {course.image_url ? (
+                      <img
+                        src={course.image_url}
+                        alt={course.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <BookOpen className="h-16 w-16 text-blue-600" />
+                    )}
                   </div>
-                  <CardTitle className="text-xl">{course.title}</CardTitle>
-                  <CardDescription className="text-gray-600">
-                    {course.description}
-                  </CardDescription>
-                </CardHeader>
-                
-                <CardContent>
-                  <div className="flex flex-wrap gap-1 mb-4">
-                    {course.technologies.map((tech) => (
-                      <Badge key={tech} variant="outline" className="text-xs">
-                        {tech}
+
+                  <CardHeader>
+                    <div className="flex justify-between items-start mb-2">
+                      <Badge variant={
+                        course.level === 'beginner' ? 'secondary' :
+                        course.level === 'intermediate' ? 'default' :
+                        'destructive'
+                      }>
+                        {course.level.charAt(0).toUpperCase() + course.level.slice(1)}
                       </Badge>
-                    ))}
-                  </div>
-                  
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                    <div className="flex items-center space-x-1">
-                      <Clock className="h-4 w-4" />
-                      <span>{course.duration}</span>
+                      <div className="flex items-center space-x-1">
+                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        <span className="text-sm font-medium">4.8</span>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <Users className="h-4 w-4" />
-                      <span>{course.students} students</span>
+                    <CardTitle className="text-xl">
+                      <Link href={`/courses/${course.id}`} className="hover:text-blue-600">
+                        {course.title}
+                      </Link>
+                    </CardTitle>
+                    <CardDescription className="text-gray-600">
+                      {course.description}
+                    </CardDescription>
+                  </CardHeader>
+
+                  <CardContent>
+                    {course.technologies && course.technologies.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mb-4">
+                        {course.technologies.map((tech, index) => (
+                          <Badge key={index} variant="outline" className="text-xs">
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                      <div className="flex items-center space-x-1">
+                        <Clock className="h-4 w-4" />
+                        <span>{course.duration}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Users className="h-4 w-4" />
+                        <span>{course.current_students} students</span>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-blue-600">
-                      ${course.price}
-                    </span>
-                    <Button>
-                      Enroll Now
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl font-bold text-blue-600">
+                          {course.price === 0 ? 'Free' : `$${course.price}`}
+                        </span>
+                      </div>
+
+                      <CoursePurchaseButton
+                        course={course}
+                        isEnrolled={isEnrolled(course.id)}
+                        onEnrollmentChange={fetchEnrollments}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

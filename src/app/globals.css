@@ -126,14 +126,25 @@
   *,
   *::before,
   *::after {
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, fill 0.3s ease, stroke 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, filter 0.3s ease, backdrop-filter 0.3s ease;
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
   }
 
-  /* Disable transitions during theme change to prevent flash */
+  /* Disable transitions during initial load and theme change */
   .theme-transition-disable *,
   .theme-transition-disable *::before,
   .theme-transition-disable *::after {
     transition: none !important;
+  }
+  
+  /* Ensure proper rendering in dark mode */
+  html.dark {
+    color-scheme: dark;
+  }
+  
+  html:not(.dark) {
+    color-scheme: light;
   }
 
   /* Responsive utilities */
